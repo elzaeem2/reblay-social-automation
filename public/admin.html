@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الإدارة - نظام الرد التلقائي</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="admin-app">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-user-shield me-2"></i>
+          لوحة الإدارة
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="admin-nav" style="display: none;">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="dashboard">
+                <i class="fas fa-tachometer-alt me-1"></i> الإحصائيات
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="users">
+                <i class="fas fa-users me-1"></i> المستخدمين
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="codes">
+                <i class="fas fa-key me-1"></i> أكواد التفعيل
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="contact-settings">
+                <i class="fas fa-address-book me-1"></i> معلومات الاتصال
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex">
+            <button id="btn-admin-logout" class="btn btn-outline-light" style="display: none;">تسجيل الخروج</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+      <!-- Login Page -->
+      <div id="page-admin-login" class="page">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">تسجيل دخول المسؤول</h5>
+              </div>
+              <div class="card-body">
+                <form id="admin-login-form">
+                  <div class="mb-3">
+                    <label for="admin-username" class="form-label">اسم المستخدم</label>
+                    <input type="text" class="form-control" id="admin-username" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="admin-password" class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-control" id="admin-password" required>
+                  </div>
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Page -->
+      <div id="page-dashboard" class="page" style="display: none;">
+        <h2 class="mb-4">الإحصائيات</h2>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h5>إجمالي المستخدمين</h5>
+                <h3 id="total-users">0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-user-check fa-3x text-success mb-3"></i>
+                <h5>المستخدمين النشطين</h5>
+                <h3 id="active-users">0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-comments fa-3x text-warning mb-3"></i>
+                <h5>إجمالي الرسائل</h5>
+                <h3 id="total-messages">0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-key fa-3x text-info mb-3"></i>
+                <h5>أكواد التفعيل</h5>
+                <h3 id="total-codes">0</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">الرسائل حسب اليوم</h5>
+              </div>
+              <div class="card-body">
+                <canvas id="messages-per-day-chart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">الرسائل حسب المستخدم</h5>
+              </div>
+              <div class="card-body">
+                <canvas id="messages-per-user-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Page -->
+      <div id="page-users" class="page" style="display: none;">
+        <h2 class="mb-4">المستخدمين</h2>
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>اسم المستخدم</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>الرسائل المتبقية</th>
+                    <th>تاريخ انتهاء التفعيل</th>
+                    <th>تاريخ التسجيل</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body">
+                  <!-- Users will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+            <div id="no-users" class="text-center py-4" style="display: none;">
+              <i class="fas fa-users fa-3x text-muted mb-3"></i>
+              <h5>لا يوجد مستخدمين</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activation Codes Page -->
+      <div id="page-codes" class="page" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>أكواد التفعيل</h2>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-code-modal">
+            <i class="fas fa-plus me-1"></i> إنشاء كود جديد
+          </button>
+        </div>
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>الكود</th>
+                    <th>النوع</th>
+                    <th>الوصف</th>
+                    <th>الحالة</th>
+                    <th>تاريخ الإنشاء</th>
+                    <th>تاريخ الاستخدام</th>
+                    <th>المستخدم</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="codes-table-body">
+                  <!-- Codes will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+            <div id="no-codes" class="text-center py-4" style="display: none;">
+              <i class="fas fa-key fa-3x text-muted mb-3"></i>
+              <h5>لا توجد أكواد تفعيل</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Settings Page -->
+      <div id="page-contact-settings" class="page" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2><i class="fas fa-address-book me-2"></i>معلومات الاتصال</h2>
+          <button class="btn btn-success" id="btn-save-contact">
+            <i class="fas fa-save me-1"></i> حفظ التغييرات
+          </button>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card shadow">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>تحديث معلومات الاتصال</h5>
+              </div>
+              <div class="card-body">
+                <form id="contact-form">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="contact-phone" class="form-label">
+                        <i class="fas fa-phone me-1"></i>رقم الهاتف
+                      </label>
+                      <input type="tel" class="form-control" id="contact-phone"
+                             placeholder="مثال: +964 770 123 4567">
+                      <div class="form-text">سيظهر هذا الرقم في صفحة سياسة الخصوصية</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="contact-whatsapp" class="form-label">
+                        <i class="fab fa-whatsapp me-1"></i>رقم الواتساب
+                      </label>
+                      <input type="tel" class="form-control" id="contact-whatsapp"
+                             placeholder="مثال: +964 770 123 4567">
+                      <div class="form-text">للتواصل السريع مع العملاء</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="contact-email" class="form-label">
+                      <i class="fas fa-envelope me-1"></i>البريد الإلكتروني للدعم الفني
+                    </label>
+                    <input type="email" class="form-control" id="contact-email"
+                           placeholder="مثال: support@mystore.com">
+                    <div class="form-text">سيستخدم للاستفسارات والدعم الفني</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="contact-address" class="form-label">
+                      <i class="fas fa-map-marker-alt me-1"></i>العنوان الفعلي للمتجر/الشركة
+                    </label>
+                    <textarea class="form-control" id="contact-address" rows="3"
+                              placeholder="مثال: بغداد، العراق - شارع الرشيد - مجمع التجارة"></textarea>
+                    <div class="form-text">العنوان الفعلي لمقر عملك</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="contact-hours" class="form-label">
+                      <i class="fas fa-clock me-1"></i>ساعات العمل (اختياري)
+                    </label>
+                    <input type="text" class="form-control" id="contact-hours"
+                           placeholder="مثال: الأحد - الخميس، 9:00 ص - 5:00 م">
+                    <div class="form-text">أوقات توفرك للرد على العملاء</div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card shadow">
+              <div class="card-header bg-info text-white">
+                <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>معلومات مهمة</h6>
+              </div>
+              <div class="card-body">
+                <div class="alert alert-info">
+                  <h6><i class="fas fa-shield-alt me-1"></i>الخصوصية والأمان</h6>
+                  <p class="small mb-2">هذه المعلومات ستظهر في:</p>
+                  <ul class="small mb-0">
+                    <li>صفحة سياسة الخصوصية</li>
+                    <li>صفحة شروط الاستخدام</li>
+                    <li>Footer التطبيق</li>
+                  </ul>
+                </div>
+
+                <div class="alert alert-warning">
+                  <h6><i class="fas fa-exclamation-triangle me-1"></i>تنبيه</h6>
+                  <p class="small mb-0">تأكد من صحة المعلومات قبل الحفظ، حيث سيتمكن العملاء من رؤيتها والتواصل معك من خلالها.</p>
+                </div>
+
+                <div class="alert alert-success">
+                  <h6><i class="fas fa-check-circle me-1"></i>فوائد التحديث</h6>
+                  <ul class="small mb-0">
+                    <li>زيادة ثقة العملاء</li>
+                    <li>تحسين التواصل</li>
+                    <li>الامتثال للمتطلبات القانونية</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card shadow mt-3">
+              <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0"><i class="fas fa-eye me-2"></i>معاينة المعلومات</h6>
+              </div>
+              <div class="card-body">
+                <div id="contact-preview">
+                  <p class="text-muted small">ستظهر هنا معاينة للمعلومات المحفوظة</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Code Modal -->
+    <div class="modal fade" id="add-code-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">إنشاء كود تفعيل جديد</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="add-code-form">
+              <div class="mb-3">
+                <label class="form-label">نوع الكود</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="code-type" id="code-type-full" value="full" checked>
+                  <label class="form-check-label" for="code-type-full">
+                    كامل (30 يوم)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="code-type" id="code-type-temp" value="temp">
+                  <label class="form-check-label" for="code-type-temp">
+                    مؤقت (50 رسالة)
+                  </label>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="code-description" class="form-label">الوصف (اختياري)</label>
+                <input type="text" class="form-control" id="code-description">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="button" class="btn btn-primary" id="btn-generate-code">إنشاء</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="admin-error-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">خطأ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="admin-error-message"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: social-media-automation
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SESSION_SECRET
+        value: social-media-automation-secret
+      - key: FACEBOOK_APP_ID
+        value: 1737360763844700
+      - key: FACEBOOK_APP_SECRET
+        value: 7590ee515e11c9eb0093959a81efaccc
+      - key: FACEBOOK_VERIFY_TOKEN
+        value: social-media-automation-webhook-token
+      - key: GEMINI_API_KEY
+        value: AIzaSyAAPHM_8GBo0ZjY4XWscg-JU6LoSjguHPo
+      - key: ADMIN_USERNAME
+        value: elzaeem
+      - key: ADMIN_PASSWORD
+        value: ym1792002
+      - key: MONGODB_URI
+        value: mongodb+srv://yousefmuhamedeng22:Ym1792002@cluster0.74elykj.mongodb.net/social-media-automation?retryWrites=true&w=majority&appName=Cluster0
+      - key: REDIRECT_URI
+        value: https://social-media-automation.onrender.com/api/oauth/callback

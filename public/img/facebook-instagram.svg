@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">
+  <!-- Facebook Logo -->
+  <g transform="translate(50, 100) scale(0.8)">
+    <circle cx="50" cy="50" r="50" fill="#3b5998"/>
+    <path d="M69.5,50H57.8v-8.8c0-2.9,1.9-3.6,3.3-3.6c1.3,0,8.2,0,8.2,0V25l-11.3,0c-12.5,0-15.3,9.4-15.3,15.3V50h-7.2v13.8h7.2c0,17.7,0,39,0,39h15.1c0,0,0-21.5,0-39h10.2L69.5,50z" fill="white"/>
+  </g>
+  
+  <!-- Instagram Logo -->
+  <g transform="translate(200, 100) scale(0.8)">
+    <radialGradient id="instaGradient" cx="50%" cy="100%" r="100%">
+      <stop offset="0%" stop-color="#fd5" />
+      <stop offset="10%" stop-color="#fd5" />
+      <stop offset="30%" stop-color="#ff543e" />
+      <stop offset="50%" stop-color="#c837ab" />
+      <stop offset="70%" stop-color="#3f5" />
+      <stop offset="100%" stop-color="#3f5" />
+    </radialGradient>
+    <circle cx="50" cy="50" r="50" fill="url(#instaGradient)"/>
+    <circle cx="50" cy="50" r="43" fill="white"/>
+    <circle cx="50" cy="50" r="37" fill="url(#instaGradient)"/>
+    <circle cx="50" cy="50" r="22" fill="white"/>
+    <circle cx="73" cy="27" r="7" fill="white"/>
+  </g>
+  
+  <!-- Connection Line -->
+  <path d="M150,100 C175,80 175,120 200,100" stroke="#888" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+  
+  <!-- Text -->
+  <text x="200" y="180" font-family="Arial" font-size="16" text-anchor="middle" fill="#333">Connect Your Accounts</text>
+</svg>

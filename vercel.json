@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "SESSION_SECRET": "social-media-automation-secret",
+    "FACEBOOK_APP_ID": "1737360763844700",
+    "FACEBOOK_APP_SECRET": "7590ee515e11c9eb0093959a81efaccc",
+    "FACEBOOK_VERIFY_TOKEN": "social-media-automation-webhook-token",
+    "GEMINI_API_KEY": "AIzaSyAAPHM_8GBo0ZjY4XWscg-JU6LoSjguHPo",
+    "ADMIN_USERNAME": "elzaeem",
+    "ADMIN_PASSWORD": "ym1792002",
+    "MONGODB_URI": "mongodb+srv://yousefmuhamedeng22:Ym1792002@cluster0.74elykj.mongodb.net/social-media-automation?retryWrites=true&w=majority&appName=Cluster0"
+  }
+}

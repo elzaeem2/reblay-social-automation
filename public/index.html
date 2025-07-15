@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام الرد التلقائي للتواصل الاجتماعي</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-robot me-2"></i>
+          نظام الرد التلقائي
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="nav-authenticated" style="display: none;">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="dashboard">
+                <i class="fas fa-tachometer-alt me-1"></i> لوحة التحكم
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="products">
+                <i class="fas fa-box me-1"></i> منتجاتي
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="chat">
+                <i class="fas fa-comments me-1"></i> اختبار المحادثة
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="accounts">
+                <i class="fas fa-link me-1"></i> ربط الحسابات
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-page="orders">
+                <i class="fas fa-shopping-cart me-1"></i> الطلبات
+              </a>
+            </li>
+            <!-- Contact settings moved to admin panel only -->
+          </ul>
+          <div class="d-flex">
+            <button id="btn-login" class="btn btn-light me-2" data-page="login">تسجيل الدخول</button>
+            <button id="btn-register" class="btn btn-outline-light" data-page="register">إنشاء حساب</button>
+            <button id="btn-logout" class="btn btn-outline-light" style="display: none;">تسجيل الخروج</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+      <!-- Login Page -->
+      <div id="page-login" class="page">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">تسجيل الدخول</h5>
+              </div>
+              <div class="card-body">
+                <form id="login-form">
+                  <div class="mb-3">
+                    <label for="login-username" class="form-label">اسم المستخدم</label>
+                    <input type="text" class="form-control" id="login-username" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="login-password" class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-control" id="login-password" required>
+                  </div>
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                  </div>
+                </form>
+                <div class="mt-3 text-center">
+                  <p>ليس لديك حساب؟ <a href="#" data-page="register">إنشاء حساب جديد</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Page -->
+      <div id="page-register" class="page" style="display: none;">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">إنشاء حساب جديد</h5>
+              </div>
+              <div class="card-body">
+                <form id="register-form">
+                  <div class="mb-3">
+                    <label for="register-name" class="form-label">الاسم الكامل</label>
+                    <input type="text" class="form-control" id="register-name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="register-username" class="form-label">اسم المستخدم</label>
+                    <input type="text" class="form-control" id="register-username" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="register-email" class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" id="register-email" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="register-password" class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-control" id="register-password" required>
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="privacy-agreement" required>
+                      <label class="form-check-label small" for="privacy-agreement">
+                        أوافق على <a href="/privacy-policy" target="_blank" class="text-decoration-none">سياسة الخصوصية</a> و <a href="/terms-of-service" target="_blank" class="text-decoration-none">شروط الاستخدام</a>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">إنشاء حساب</button>
+                  </div>
+                </form>
+                <div class="mt-3 text-center">
+                  <p>لديك حساب بالفعل؟ <a href="#" data-page="login">تسجيل الدخول</a></p>
+                  <p class="small text-muted">
+                    بإنشاء حساب، فإنك توافق على <a href="/privacy-policy" target="_blank" class="text-decoration-none">سياسة الخصوصية</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Page -->
+      <div id="page-dashboard" class="page" style="display: none;">
+        <h2 class="mb-4">لوحة التحكم</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-message fa-3x text-primary mb-3"></i>
+                <h5>الرسائل المتبقية</h5>
+                <h3 id="remaining-messages">0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+                <h5>تاريخ انتهاء الاشتراك</h5>
+                <h3 id="subscription-expiry">غير مفعل</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow mb-4">
+              <div class="card-body text-center">
+                <i class="fas fa-box fa-3x text-warning mb-3"></i>
+                <h5>عدد المنتجات</h5>
+                <h3 id="product-count">0</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Store Settings Section -->
+        <div class="card shadow mb-4" id="store-settings-card">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">إعدادات المتجر</h5>
+          </div>
+          <div class="card-body">
+            <form id="store-info-form">
+              <div class="mb-3">
+                <label for="store-name" class="form-label">اسم المتجر</label>
+                <input type="text" class="form-control" id="store-name" placeholder="أدخل اسم المتجر">
+                <div class="form-text">سيظهر هذا الاسم في ردود الذكاء الاصطناعي عندما يسأل العميل عن اسم المتجر.</div>
+              </div>
+              <div class="mb-3">
+                <label for="store-address" class="form-label">عنوان المتجر</label>
+                <input type="text" class="form-control" id="store-address" placeholder="أدخل عنوان المتجر">
+                <div class="form-text">سيظهر هذا العنوان في ردود الذكاء الاصطناعي عندما يسأل العميل عن موقع المتجر.</div>
+              </div>
+              <div class="mb-3">
+                <label for="store-description" class="form-label">وصف المتجر</label>
+                <textarea class="form-control" id="store-description" rows="3" placeholder="أدخل وصفاً مختصراً للمتجر"></textarea>
+                <div class="form-text">سيستخدم الذكاء الاصطناعي هذا الوصف عند التعريف بالمتجر.</div>
+              </div>
+              <button type="submit" class="btn btn-primary" id="btn-save-store-info">حفظ معلومات المتجر</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Activation Section -->
+        <div class="card shadow mb-4" id="activation-card">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">تفعيل الحساب</h5>
+          </div>
+          <div class="card-body">
+            <div id="activation-needed">
+              <p>لتفعيل حسابك والحصول على خدمة الرد التلقائي بشكل كامل، يرجى إدخال كود التفعيل الخاص بك.</p>
+              <div class="row">
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="activation-code" placeholder="أدخل كود التفعيل">
+                </div>
+                <div class="col-md-4">
+                  <button class="btn btn-primary w-100" id="btn-activate">تفعيل</button>
+                </div>
+              </div>
+              <div class="mt-3">
+                <p>للحصول على كود تفعيل، يرجى التواصل معنا عبر واتساب.</p>
+              </div>
+            </div>
+            <div id="activation-active" style="display: none;">
+              <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>
+                حسابك مفعل حتى <span id="activation-expiry-date"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Page -->
+      <div id="page-products" class="page" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>منتجاتي</h2>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-product-modal">
+            <i class="fas fa-plus me-1"></i> إضافة منتج
+          </button>
+        </div>
+
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>اسم المنتج</th>
+                    <th>السعر</th>
+                    <th>الوصف</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="products-table-body">
+                  <!-- Products will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+            <div id="no-products" class="text-center py-4" style="display: none;">
+              <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+              <h5>لا توجد منتجات</h5>
+              <p>قم بإضافة منتجاتك لتتمكن من الرد على استفسارات العملاء بشكل تلقائي.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Test Page -->
+      <div id="page-chat" class="page" style="display: none;">
+        <h2 class="mb-4">اختبار المحادثة</h2>
+        <div class="row">
+          <div class="col-md-8 mx-auto">
+            <div class="card shadow mb-4">
+              <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">محادثة اختبارية</h5>
+                <button type="button" class="btn btn-light btn-sm" id="btn-new-chat">
+                  <i class="fas fa-plus-circle me-1"></i> محادثة جديدة
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="chat-container" id="chat-messages">
+                  <div class="system-message">
+                    مرحباً! أنا المساعد الآلي الخاص بك. يمكنك اختبار كيف سيتفاعل البوت مع عملائك هنا.
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <form id="chat-form">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="chat-input" placeholder="اكتب رسالتك هنا...">
+                    <button class="btn btn-primary" type="submit">
+                      <i class="fas fa-paper-plane"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Page -->
+      <div id="page-orders" class="page" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>الطلبات</h2>
+          <div>
+            <button class="btn btn-outline-primary me-2" id="btn-refresh-orders">
+              <i class="fas fa-sync-alt me-1"></i> تحديث
+            </button>
+          </div>
+        </div>
+
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>المنتج</th>
+                    <th>الكمية</th>
+                    <th>معلومات العميل</th>
+                    <th>الحالة</th>
+                    <th>تاريخ الطلب</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                  <!-- Orders will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+            <div id="no-orders" class="text-center py-4" style="display: none;">
+              <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+              <h5>لا توجد طلبات</h5>
+              <p>ستظهر هنا الطلبات التي يقوم العملاء بإرسالها من خلال المحادثة.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Settings moved to admin panel -->
+
+      <!-- Accounts Page -->
+      <div id="page-accounts" class="page" style="display: none;">
+        <h2 class="mb-4">ربط حسابات التواصل الاجتماعي</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">فيسبوك وإنستغرام</h5>
+              </div>
+              <div class="card-body">
+                <div id="facebook-not-connected">
+                  <div class="text-center mb-4">
+                    <img src="img/facebook-instagram.svg" alt="Facebook & Instagram" style="max-width: 200px;">
+                  </div>
+                  <p>قم بربط حسابك على فيسبوك للتمكن من الرد التلقائي على رسائل صفحاتك وحسابات إنستغرام المرتبطة بها.</p>
+                  <div class="features-list mb-4">
+                    <div class="feature-item">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      <span>الرد التلقائي على رسائل فيسبوك</span>
+                    </div>
+                    <div class="feature-item">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      <span>الرد التلقائي على رسائل انستغرام</span>
+                    </div>
+                    <div class="feature-item">
+                      <i class="fas fa-check-circle text-success me-2"></i>
+                      <span>تتبع المحادثات والطلبات</span>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary w-100" id="btn-connect-facebook">
+                    <i class="fab fa-facebook me-2"></i> ربط حساب فيسبوك
+                  </button>
+                </div>
+                <div id="facebook-connected" style="display: none;">
+                  <div class="alert alert-success mb-3">
+                    <i class="fas fa-check-circle me-2"></i>
+                    تم ربط حسابك بنجاح
+                  </div>
+                  <div class="account-info mb-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="account-icon me-3">
+                        <i class="fab fa-facebook-f fa-2x text-primary"></i>
+                      </div>
+                      <div>
+                        <h6 class="mb-0">الحساب المرتبط:</h6>
+                        <p id="facebook-account-name" class="mb-0 fw-bold">-</p>
+                        <p id="facebook-account-email" class="text-muted small mb-0">-</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h6 class="border-bottom pb-2 mb-3">الصفحات والحسابات المرتبطة:</h6>
+                  <div id="facebook-pages-container">
+                    <ul id="facebook-pages-list" class="connected-accounts-list">
+                      <!-- Pages will be loaded here -->
+                    </ul>
+                  </div>
+
+                  <div class="mt-4 pt-3 border-top">
+                    <button class="btn btn-danger w-100" id="btn-disconnect-facebook">
+                      <i class="fas fa-unlink me-2"></i> إلغاء ربط الحساب
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <style>
+                .features-list {
+                  background-color: #f8f9fa;
+                  padding: 15px;
+                  border-radius: 8px;
+                }
+                .feature-item {
+                  margin-bottom: 10px;
+                  display: flex;
+                  align-items: center;
+                }
+                .connected-accounts-list {
+                  list-style: none;
+                  padding: 0;
+                  margin: 0;
+                }
+                .connected-accounts-list li {
+                  padding: 10px;
+                  margin-bottom: 10px;
+                  background-color: #f8f9fa;
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                }
+                .connected-accounts-list li .account-icon {
+                  width: 40px;
+                  height: 40px;
+                  margin-left: 10px;
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                }
+                .connected-accounts-list li .fb-icon {
+                  background-color: #3b5998;
+                }
+                .connected-accounts-list li .ig-icon {
+                  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+                }
+                .account-details {
+                  flex: 1;
+                }
+                .account-name {
+                  font-weight: 500;
+                  margin-bottom: 2px;
+                }
+                .account-type {
+                  font-size: 12px;
+                  color: #6c757d;
+                }
+                .account-status {
+                  font-size: 12px;
+                  padding: 2px 8px;
+                  border-radius: 10px;
+                  background-color: #28a745;
+                  color: white;
+                  display: inline-block;
+                }
+              </style>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow mb-4">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">تعليمات الربط</h5>
+              </div>
+              <div class="card-body">
+                <ol>
+                  <li>اضغط على زر "ربط حساب فيسبوك".</li>
+                  <li>قم بتسجيل الدخول إلى حسابك على فيسبوك.</li>
+                  <li>امنح التطبيق الأذونات المطلوبة للوصول إلى صفحاتك وحسابات إنستغرام المرتبطة.</li>
+                  <li>سيتم إعادة توجيهك تلقائياً إلى التطبيق بعد إتمام عملية الربط.</li>
+                  <li>تأكد من إعداد Webhook في لوحة تحكم مطوري فيسبوك لاستقبال الرسائل.</li>
+                </ol>
+                <div class="alert alert-info">
+                  <i class="fas fa-info-circle me-2"></i>
+                  للحصول على مساعدة في إعداد Webhook، يرجى التواصل معنا.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="add-product-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">إضافة منتج جديد</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="add-product-form">
+              <div class="mb-3">
+                <label for="product-name" class="form-label">اسم المنتج</label>
+                <input type="text" class="form-control" id="product-name" required>
+              </div>
+              <div class="mb-3">
+                <label for="product-price" class="form-label">السعر</label>
+                <input type="text" class="form-control" id="product-price" required>
+              </div>
+              <div class="mb-3">
+                <label for="product-description" class="form-label">الوصف</label>
+                <textarea class="form-control" id="product-description" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="button" class="btn btn-primary" id="btn-save-product">حفظ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="edit-product-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">تعديل المنتج</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="edit-product-form">
+              <input type="hidden" id="edit-product-id">
+              <div class="mb-3">
+                <label for="edit-product-name" class="form-label">اسم المنتج</label>
+                <input type="text" class="form-control" id="edit-product-name" required>
+              </div>
+              <div class="mb-3">
+                <label for="edit-product-price" class="form-label">السعر</label>
+                <input type="text" class="form-control" id="edit-product-price" required>
+              </div>
+              <div class="mb-3">
+                <label for="edit-product-description" class="form-label">الوصف</label>
+                <textarea class="form-control" id="edit-product-description" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="button" class="btn btn-primary" id="btn-update-product">حفظ التغييرات</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activation Success Modal -->
+    <div class="modal fade" id="activation-success-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title">تم التفعيل بنجاح</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+            <h4>تهانينا!</h4>
+            <p>تم تفعيل حسابك بنجاح. يمكنك الآن الاستفادة من جميع مميزات النظام.</p>
+            <p id="activation-success-details"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">حسناً</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Order Status Modal -->
+    <div class="modal fade" id="update-order-status-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">تحديث حالة الطلب</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="update-order-id">
+            <div class="mb-3">
+              <label for="order-status" class="form-label">الحالة</label>
+              <select class="form-select" id="order-status">
+                <option value="pending">قيد الانتظار</option>
+                <option value="processing">قيد المعالجة</option>
+                <option value="completed">مكتمل</option>
+                <option value="cancelled">ملغي</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="button" class="btn btn-primary" id="btn-update-order-status">تحديث</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="error-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">خطأ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="error-message"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5><i class="fas fa-robot me-2"></i>منصة التواصل الاجتماعي التلقائية</h5>
+          <p class="mb-2">حلول ذكية لإدارة متجرك الإلكتروني والرد التلقائي على العملاء</p>
+          <p class="text-muted small">© 2025 جميع الحقوق محفوظة</p>
+        </div>
+        <div class="col-md-3">
+          <h6>روابط مهمة</h6>
+          <ul class="list-unstyled">
+            <li><a href="/privacy-policy" class="text-light text-decoration-none" target="_blank">
+              <i class="fas fa-shield-alt me-2"></i>سياسة الخصوصية
+            </a></li>
+            <li><a href="/terms-of-service" class="text-light text-decoration-none" target="_blank">
+              <i class="fas fa-file-contract me-2"></i>شروط الاستخدام
+            </a></li>
+            <li><a href="mailto:support@social-automation.com" class="text-light text-decoration-none">
+              <i class="fas fa-envelope me-2"></i>الدعم الفني
+            </a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>تواصل معنا</h6>
+          <ul class="list-unstyled" id="footer-contact-info">
+            <li><i class="fas fa-envelope me-2"></i><span id="footer-email">privacy@social-automation.com</span></li>
+            <li><i class="fas fa-phone me-2"></i><span id="footer-phone">+964 XXX XXX XXXX</span></li>
+            <li><i class="fas fa-map-marker-alt me-2"></i><span id="footer-address">بغداد، العراق</span></li>
+            <li id="footer-hours-item" style="display: none;"><i class="fas fa-clock me-2"></i><span id="footer-hours"></span></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-3">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0 small text-muted">
+            هذا التطبيق يستخدم APIs من Facebook/Instagram وGoogle Gemini لتقديم خدمات الذكاء الاصطناعي
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

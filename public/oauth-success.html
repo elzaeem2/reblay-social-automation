@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تم الربط بنجاح</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .success-container {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 30px;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    .success-icon {
+      font-size: 80px;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .account-info {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      text-align: right;
+    }
+    .account-info h5 {
+      margin-bottom: 15px;
+      color: #495057;
+    }
+    .account-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .account-icon {
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .fb-icon {
+      background-color: #3b5998;
+    }
+    .ig-icon {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+    .account-name {
+      font-weight: 500;
+    }
+    .close-window {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #6c757d;
+    }
+    .auto-close {
+      font-size: 13px;
+      color: #6c757d;
+      margin-top: 5px;
+    }
+    .countdown {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-container">
+      <i class="fas fa-check-circle success-icon"></i>
+      <h2>تم ربط حسابك بنجاح!</h2>
+      <p>تم ربط حسابك على فيسبوك بنجاح. يمكنك الآن استخدام ميزات الرد التلقائي على رسائل فيسبوك وانستغرام.</p>
+
+      <div class="account-info">
+        <h5>الحسابات التي تم ربطها:</h5>
+        <div id="connected-accounts">
+          <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">جاري التحميل...</span>
+            </div>
+            <p>جاري تحميل الحسابات المرتبطة...</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="/" class="btn btn-primary mt-4">العودة إلى التطبيق</a>
+      <p class="close-window">يمكنك إغلاق هذه النافذة والعودة إلى التطبيق</p>
+      <p class="auto-close">سيتم إغلاق هذه النافذة تلقائياً خلال <span id="countdown" class="countdown">5</span> ثوانٍ</p>
+    </div>
+  </div>
+
+  <script>
+    // Auto close countdown
+    let seconds = 5;
+    const countdownElement = document.getElementById('countdown');
+    const countdownInterval = setInterval(() => {
+      seconds--;
+      countdownElement.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        window.close();
+      }
+    }, 1000);
+
+    // Load connected accounts
+    async function loadConnectedAccounts() {
+      try {
+        // Get token from localStorage if available
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('/api/oauth/accounts', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'x-auth-token': token } : {})
+          },
+          credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (data.connected && !data.expired && data.accounts) {
+          const accountsContainer = document.getElementById('connected-accounts');
+
+          if (data.accounts.length === 0) {
+            accountsContainer.innerHTML = '<p>لم يتم العثور على صفحات مرتبطة. يرجى التأكد من أن لديك صفحات على فيسبوك.</p>';
+            return;
+          }
+
+          let accountsHtml = '';
+
+          data.accounts.forEach(account => {
+            accountsHtml += `
+              <div class="account-item">
+                <div class="account-icon fb-icon">
+                  <i class="fab fa-facebook-f"></i>
+                </div>
+                <div>
+                  <div class="account-name">${account.name}</div>
+                  <div class="account-type">صفحة فيسبوك</div>
+                </div>
+              </div>
+            `;
+
+            if (account.instagram) {
+              accountsHtml += `
+                <div class="account-item" style="margin-right: 20px;">
+                  <div class="account-icon ig-icon">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div>
+                    <div class="account-name">${account.instagram.name || account.instagram.username}</div>
+                    <div class="account-type">حساب انستغرام (@${account.instagram.username})</div>
+                  </div>
+                </div>
+              `;
+            }
+          });
+
+          accountsContainer.innerHTML = accountsHtml;
+        } else {
+          document.getElementById('connected-accounts').innerHTML = '<p>حدث خطأ أثناء تحميل الحسابات المرتبطة. يرجى تحديث الصفحة.</p>';
+        }
+      } catch (error) {
+        console.error('Error loading accounts:', error);
+        document.getElementById('connected-accounts').innerHTML = '<p>حدث خطأ أثناء تحميل الحسابات المرتبطة. يرجى تحديث الصفحة.</p>';
+      }
+    }
+
+    // Load accounts when page loads
+    window.addEventListener('DOMContentLoaded', loadConnectedAccounts);
+  </script>
+</body>
+</html>
