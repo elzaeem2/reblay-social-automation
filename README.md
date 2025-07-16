@@ -9,13 +9,21 @@
 - إدارة المنتجات والطلبات
 - واجهة مستخدم بسيطة
 
-## خيارات النشر
+## 🚀 روابط النشر المباشر
 
-### Glitch.com
-رابط التطبيق: https://your-project-name.glitch.me
+### 🔗 خيارات النشر السريع:
 
-### Render.com
-رابط التطبيق: https://your-app-name.onrender.com
+1. **Render.com** (الأفضل للإنتاج):
+   - انقر هنا: [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/elzaeem2/reblay-social-automation)
+
+2. **Glitch.com** (سريع وسهل):
+   - انقر هنا: [Import to Glitch](https://glitch.com/edit/#!/import/github/elzaeem2/reblay-social-automation)
+
+3. **Replit** (للتطوير والاختبار):
+   - انقر هنا: [Open in Replit](https://replit.com/github/elzaeem2/reblay-social-automation)
+
+4. **CodeSandbox** (للمعاينة السريعة):
+   - انقر هنا: [Open in CodeSandbox](https://codesandbox.io/s/github/elzaeem2/reblay-social-automation)
 
 ## كيفية الاستخدام
 
